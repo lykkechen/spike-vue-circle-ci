@@ -11,15 +11,6 @@ jobs:
           command: |
             ls -al
             yarn install
-  lint:
-    working_directory: ~/project/blah
-    docker:
-      - image: vuejs/ci
-    steps:
-      - checkout
-      - run:
-          name: Lint Code
-          command: |
             ls -al
             yarn lint
 
@@ -28,6 +19,3 @@ workflows:
   install_and_lint:
     jobs:
       - install
-      - lint:
-          requires:
-            - install
