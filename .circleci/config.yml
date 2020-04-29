@@ -1,11 +1,11 @@
-version: 2.1
-jobs:
+version: 2.1 # version of the CircleCI platform
+jobs: # jobs level contains a collection of arbitrarily named children
   build:
-    # pre-built images: https://circleci.com/docs/2.0/circleci-images/
-    docker:
-      - image: circleci/node:10-browsers
-    steps:
-      - checkout
+    # pre-built images: https://circleci.com/docs/2.0/circleci-images/. pre-built container from CircleCI that already has a browser and other useful tools built in
+    docker: # executor, environment. CircleCI enables you to run jobs in one of four environments. Use docker containers to run in precisely the environment that you need
+      - image: circleci/node:10-browsers # docker image to use for the job
+    steps: # The steps collection is an ordered list of run directive
+      - checkout # checkout command is an example of a built-in reserved word that contextualizes your job
       - run:
           name: The First Step
           command: |
@@ -18,6 +18,6 @@ jobs:
             echo '^^^That should look familiar^^^'
       - run:
           name: Running in a Unique Container
-          command: |
-            node -v
+          command: | # The command attribute is a list of shell commands that represent the work you want done. The initial pipe, |, indicates that there will be more than one line of shell commands
+            node -v returns the version of node available in the container
             docker --version
