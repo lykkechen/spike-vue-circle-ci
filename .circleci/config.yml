@@ -53,6 +53,16 @@ jobs:
           file: coverage/*.json
       - store_artifacts:
           path: coverage
+      - run:
+          name: Install JUnit coverage reporter
+          command: yarn add --dev jest-junit
+      - run:
+          name: Run tests with JUnit as reporter
+          command: jest --ci --runInBand --reporters=default --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT_DIR: "reports/junit/js-test-results.xml"
+
+
 
 workflows:
   version: 2
