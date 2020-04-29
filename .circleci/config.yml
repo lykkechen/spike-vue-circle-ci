@@ -19,7 +19,7 @@ jobs:
           name: Install dependencies
           command: |
             ls -al
-            yarn install
+            yarn install --frozen-lockfile
             ls -al
       - save_cache:
           key: v1-test-vue-circle-ci-{{ .Branch }}-{{ checksum "yarn.lock" }}
