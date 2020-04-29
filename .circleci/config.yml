@@ -6,9 +6,15 @@ jobs:
       - image: vuejs/ci
     steps:
       - checkout
+      - run:
+          name: ls
+          command: |
+            ls -al
       - restore_cache:
           keys:
-            - v1-vue-circle-{{ checksum "yarn.lock" }}
+            - v1-test-vue-circle-ci-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-test-vue-circle-ci-{{ .Branch }}-
+            - v1-test-vue-circle-ci-
       - run:
           name: Install dependencies
           command: |
@@ -16,13 +22,14 @@ jobs:
             yarn install
             ls -al
       - save_cache:
-          key: v1-vue-circle-{{ checksum "yarn.lock" }}
+          key: v1-test-vue-circle-ci-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
       - persist_to_workspace:
           root: ~/
           paths:
             - project/blah
+
   lint:
     working_directory: ~/project/blah
     docker:
@@ -44,8 +51,8 @@ jobs:
           at: ~/
       - run:
           name: Unit testing
-          command: |
             ls -al
+          command: |
             yarn test:unit
 
 workflows:
