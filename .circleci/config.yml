@@ -1,57 +1,36 @@
 version: 2.1
+
 jobs:
-  Hello-World:
+  install:
     docker:
-      - image: alpine:3.7
+    - image: vuejs/ci
     steps:
       - run:
-          name: Hello World
-          command: |
-            echo 'Hello World!'
-            echo 'This is the delivery pipeline'
-  I-Have-Code:
+            name: Install dependencies
+            command: yarn install
+  lint:
     docker:
-      - image: alpine:3.7
-    steps:
-      - checkout
-      - run:
-          name: Code Has Arrived
-          command: |
-            ls -al
-            echo '^^^That should look familiar^^^'
-  Run-With-Node:
-    docker:
-      - image: circleci/node:10-browsers
+    - image: vuejs/ci
     steps:
       - run:
-          name: Running In A Container With Node
-          command: |
-            node -v
-  Now-Complete:
+            name: Lint code
+            command: yarn lint
+  test:
     docker:
-      - image: alpine:3.7
+    - image: vuejs/ci
     steps:
       - run:
-          name: Approval Complete
-          command: |
-            echo 'Do work once the approval has completed'
+            name: Run unit tests
+            command: yarn test:unit
 
 workflows:
  version: 2
- Example_Workflow:
+ lint_and_test:
    jobs:
-     - Hello-World
-     - I-Have-Code:
+     - install
+     - lint:
          requires:
-           - Hello-World
-     - Run-With-Node:
+           - install
+     - test:
          requires:
-           - Hello-World
-     - Hold-For-Approval:
-         type: approval
-         requires:
-           - Run-With-Node
-           - I-Have-Code
-     - Now-Complete:
-         requires:
-           - Hold-For-Approval
+           - install
