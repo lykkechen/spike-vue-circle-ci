@@ -1,5 +1,8 @@
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@1.0.2
+
 defaults: &defaults
   working_directory: ~/project/spike
   docker:
@@ -27,7 +30,6 @@ jobs:
           root: ~/
           paths:
             - project/spike
-
   lint:
     <<: *defaults
     steps:
@@ -49,6 +51,12 @@ jobs:
             yarn test:unit --coverage
       - store_artifacts:
           path: coverage
+  coverage:
+    <<: *defaults
+    steps:
+      - codecov/upload:
+          file: coverage/*.json
+          flags: frontend
 
 workflows:
   version: 2
