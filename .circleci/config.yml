@@ -21,7 +21,6 @@ jobs:
     docker:
       - image: vuejs/ci
     steps:
-      - checkout
       - attach_workspace:
           at: ~/project
       - run:
