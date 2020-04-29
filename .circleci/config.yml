@@ -65,5 +65,3 @@ workflows:
       - test:
           requires:
             - install
-      - coverage:
-          requires:
