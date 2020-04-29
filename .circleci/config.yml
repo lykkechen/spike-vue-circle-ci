@@ -35,7 +35,7 @@ jobs:
           command: |
             ls -al
             yarn lint
-    test:
+  test:
     working_directory: ~/project/blah
     docker:
       - image: vuejs/ci
