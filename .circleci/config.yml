@@ -13,7 +13,7 @@ jobs:
             yarn install
             ls -al
       - persist_to_workspace:
-          root: ~/
+          root: ~/project
           paths:
             - project/blah
   lint:
@@ -22,7 +22,7 @@ jobs:
       - image: vuejs/ci
     steps:
       - attach_workspace:
-          at: ~/
+          at: ~/project
       - run:
           name: Lint Code
           command: |
