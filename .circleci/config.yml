@@ -22,7 +22,7 @@ jobs:
       - image: vuejs/ci
     steps:
       - attach_workspace:
-          at: ~/project
+          at: ~/
       - run:
           name: Lint Code
           command: |
