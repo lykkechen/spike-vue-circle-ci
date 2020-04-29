@@ -10,10 +10,6 @@ jobs:
     <<: *defaults
     steps:
       - checkout
-      - run:
-          name: ls
-          command: |
-            ls -al
       - restore_cache:
           keys:
             - v1-test-vue-circle-ci-{{ .Branch }}-{{ checksum "yarn.lock" }}
@@ -50,7 +46,9 @@ jobs:
       - run:
           name: Unit testing
           command: |
-            yarn test:unit
+            yarn test:unit --coverage
+      - store_artifacts:
+          path: coverage
 
 workflows:
   version: 2
