@@ -13,8 +13,6 @@ jobs:
       - restore_cache:
           keys:
             - v1-test-vue-circle-ci-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-test-vue-circle-ci-{{ .Branch }}-
-            - v1-test-vue-circle-ci-
       - run:
           name: Install dependencies
           command: |
