@@ -49,13 +49,10 @@ jobs:
           name: Unit testing
           command: |
             yarn test:unit --coverage
-      - store_artifacts:
-          path: coverage
-  coverage:
-    <<: *defaults
-    steps:
       - codecov/upload:
           file: coverage/*.json
+      - store_artifacts:
+          path: coverage
 
 workflows:
   version: 2
@@ -68,3 +65,5 @@ workflows:
       - test:
           requires:
             - install
+      - coverage:
+          requires:
