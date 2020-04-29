@@ -6,12 +6,19 @@ jobs:
       - image: vuejs/ci
     steps:
       - checkout
+      - restore_cache:
+          keys:
+            - v1-vue-circle-{{ checksum "yarn.lock" }}
       - run:
           name: Install dependencies
           command: |
             ls -al
             yarn install
             ls -al
+      - save_cache:
+          key: v1-vue-circle-{{ checksum "yarn.lock" }}
+          paths:
+            - node_modules/
       - persist_to_workspace:
           root: ~/project
           paths:
