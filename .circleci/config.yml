@@ -7,21 +7,27 @@ jobs:
     steps:
       - run:
             name: Install dependencies
-            command: yarn install
+            command: |
+            ls
+            yarn install
   lint:
     docker:
     - image: vuejs/ci
     steps:
       - run:
             name: Lint code
-            command: yarn lint
+            command: |
+            ls
+            yarn lint
   test:
     docker:
     - image: vuejs/ci
     steps:
       - run:
             name: Run unit tests
-            command: yarn test:unit
+            command: |
+            ls
+            yarn test:unit
 
 workflows:
  version: 2
