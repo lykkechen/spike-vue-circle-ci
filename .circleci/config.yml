@@ -1,9 +1,13 @@
 version: 2.1
+
+defaults: &defaults
+  working_directory: ~/project/spike
+  docker:
+    - image: vuejs/ci
+
 jobs:
   install:
-    working_directory: ~/project/blah
-    docker:
-      - image: vuejs/ci
+    <<: *defaults
     steps:
       - checkout
       - run:
@@ -26,12 +30,10 @@ jobs:
       - persist_to_workspace:
           root: ~/
           paths:
-            - project/blah
+            - project/spike
 
   lint:
-    working_directory: ~/project/blah
-    docker:
-      - image: vuejs/ci
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/
@@ -41,15 +43,12 @@ jobs:
             ls -al
             yarn lint
   test:
-    working_directory: ~/project/blah
-    docker:
-      - image: vuejs/ci
+    <<: *defaults
     steps:
       - attach_workspace:
           at: ~/
       - run:
           name: Unit testing
-            ls -al
           command: |
             yarn test:unit
 
