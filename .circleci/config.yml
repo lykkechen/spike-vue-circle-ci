@@ -1,23 +1,57 @@
-version: 2.1 # version of the CircleCI platform
-jobs: # jobs level contains a collection of arbitrarily named children
-  build:
-    # pre-built images: https://circleci.com/docs/2.0/circleci-images/. pre-built container from CircleCI that already has a browser and other useful tools built in
-    docker: # executor, environment. CircleCI enables you to run jobs in one of four environments. Use docker containers to run in precisely the environment that you need
-      - image: circleci/node:10-browsers # docker image to use for the job
-    steps: # The steps collection is an ordered list of run directive
-      - checkout # checkout command is an example of a built-in reserved word that contextualizes your job
+version: 2.1
+jobs:
+  Hello-World:
+    docker:
+      - image: alpine:3.7
+    steps:
       - run:
-          name: The First Step
+          name: Hello World
           command: |
             echo 'Hello World!'
             echo 'This is the delivery pipeline'
+  I-Have-Code:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - checkout
       - run:
           name: Code Has Arrived
           command: |
             ls -al
             echo '^^^That should look familiar^^^'
+  Run-With-Node:
+    docker:
+      - image: circleci/node:10-browsers
+    steps:
       - run:
-          name: Running in a Unique Container
-          command: | # The command attribute is a list of shell commands that represent the work you want done. The initial pipe, |, indicates that there will be more than one line of shell commands
-            node -v returns the version of node available in the container
-            docker --version
+          name: Running In A Container With Node
+          command: |
+            node -v
+  Now-Complete:
+    docker:
+      - image: alpine:3.7
+    steps:
+      - run:
+          name: Approval Complete
+          command: |
+            echo 'Do work once the approval has completed'
+
+workflows:
+ version: 2
+ Example_Workflow:
+   jobs:
+     - Hello-World
+     - I-Have-Code:
+         requires:
+           - Hello-World
+     - Run-With-Node:
+         requires:
+           - Hello-World
+     - Hold-For-Approval:
+         type: approval
+         requires:
+           - Run-With-Node
+           - I-Have-Code
+     - Now-Complete:
+         requires:
+           - Hold-For-Approval
