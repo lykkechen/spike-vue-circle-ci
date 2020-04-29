@@ -1,5 +1,4 @@
 version: 2.1
-
 jobs:
   install:
     working_directory: ~/project
@@ -7,37 +6,27 @@ jobs:
       - image: vuejs/ci
     steps:
       - run:
-        name: Install dependencies
-        command: |
-          ls -al
-          yarn install
+          name: Install dependencies
+          command: |
+            ls -al
+            yarn install
   lint:
+    working_directory: ~/project
     docker:
       - image: vuejs/ci
     steps:
+      - checkout
       - run:
-        name: Lint code
-        command: |
-          ls -al
-          yarn lint
-  test:
-    docker:
-    - image: vuejs/ci
-    steps:
-      - run:
-        name: Run unit tests
-        command: |
-          ls -al
-          yarn test:unit
+          name: Lint Code
+          command: |
+            ls -al
+            yarn lint
 
 workflows:
   version: 2
-  lint_and_test:
+  install_and_lint:
     jobs:
       - install
       - lint:
-        requires:
-          - install
-      - test:
-        requires:
-          - install
+          requires:
+            - install
