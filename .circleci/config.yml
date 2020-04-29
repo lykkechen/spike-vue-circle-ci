@@ -1,7 +1,7 @@
 version: 2.1
 jobs:
   install:
-    working_directory: ~/project
+    working_directory: ~/project/blah
     docker:
       - image: vuejs/ci
     steps:
@@ -12,6 +12,22 @@ jobs:
             ls -al
             yarn install
             ls -al
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project/blah
+  lint:
+    working_directory: ~/project/blah
+    docker:
+      - image: vuejs/ci
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/project
+      - run:
+          name: Lint Code
+          command: |
+            ls -al
             yarn lint
 
 workflows:
@@ -19,3 +35,6 @@ workflows:
   install_and_lint:
     jobs:
       - install
+      - lint:
+          requires:
+            - install
