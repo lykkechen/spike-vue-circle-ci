@@ -5,13 +5,14 @@ jobs:
     docker:
       - image: vuejs/ci
     steps:
+      - checkout
       - run:
           name: Install dependencies
           command: |
             ls -al
             yarn install
   lint:
-    working_directory: ~/project
+    working_directory: ~/project/blah
     docker:
       - image: vuejs/ci
     steps:
